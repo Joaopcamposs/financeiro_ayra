@@ -13,11 +13,18 @@ class _HomePageState extends State<HomePage> {
   SaleHelper helper = SaleHelper();
 
   List<Sale> sales = [];
+  int _qtdTotal;
+  num _valorTotal;
+  num _custoTotal;
+  num _lucro;
+  num _ticketMedio;
 
   @override
   void initState() {
     super.initState();
 
+    _getAllSales();
+    if (sales.isNotEmpty && sales != null) _getValues();
   }
 
   @override
@@ -31,6 +38,10 @@ class _HomePageState extends State<HomePage> {
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             _showSalePage();
+            setState(() {
+              _getAllSales();
+              if (sales.isNotEmpty && sales != null) _getValues();
+            });
           },
           child: Icon(Icons.add),
           backgroundColor: colorAyra,
@@ -56,30 +67,37 @@ class _HomePageState extends State<HomePage> {
                 Padding(
                     padding: EdgeInsets.only(top: 50),
                     child: Text(
-                      "Vendas no mês: ",
+                      "Quantidade vendido: $_qtdTotal",
                       style:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     )),
                 Padding(
                     padding: EdgeInsets.only(top: 50),
                     child: Text(
-                      "Total de gastos: ",
+                      "Valor total: $_valorTotal",
                       style:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     )),
                 Padding(
                     padding: EdgeInsets.only(top: 50),
                     child: Text(
-                      "Lucro: ",
+                      "Custo total: $_custoTotal",
                       style:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     )),
                 Padding(
                     padding: EdgeInsets.only(top: 50),
                     child: Text(
-                      "Ticket Médio: ",
+                      "Lucro: $_lucro",
                       style:
-                      TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
+                    )),
+                Padding(
+                    padding: EdgeInsets.only(top: 50),
+                    child: Text(
+                      "Ticket Médio: $_ticketMedio",
+                      style:
+                          TextStyle(fontSize: 18, fontWeight: FontWeight.bold),
                     )),
               ],
             ),
@@ -87,8 +105,24 @@ class _HomePageState extends State<HomePage> {
         ));
   }
 
+  void _getAllSales() {
+    helper.getAllSales().then((list) {
+      setState(() {
+        sales = list;
+      });
+    });
+  }
+
+  void _getValues() {
+    _qtdTotal = sales.length; //quantidade
+    for (Sale sale in sales) _valorTotal += num.parse(sale.valor); //valor total
+    for (Sale sale in sales) _custoTotal += num.parse(sale.custo); //custo total
+    _lucro = (_valorTotal - _custoTotal);
+    _ticketMedio = (_valorTotal / _qtdTotal);
+  }
+
   void _showSalePage() {
-    Navigator.push(context, MaterialPageRoute(
-        builder: (context) => SalePage()));
+    Navigator.push(
+        context, MaterialPageRoute(builder: (context) => SalePage()));
   }
 }
