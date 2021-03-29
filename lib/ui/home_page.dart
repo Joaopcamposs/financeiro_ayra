@@ -35,6 +35,65 @@ class _HomePageState extends State<HomePage> {
           backgroundColor: colorAyra,
           centerTitle: true,
         ),
+        drawer: Drawer(
+            child: ListView(
+          children: [
+            GestureDetector(
+              child: Card(
+                child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        child: Icon(Icons.shopping_bag_outlined),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Todas as vendas",
+                              style: TextStyle(fontSize: 22),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+            GestureDetector(
+              child: Card(
+                child: Padding(
+                  padding: EdgeInsets.all(10),
+                  child: Row(
+                    crossAxisAlignment: CrossAxisAlignment.start,
+                    children: [
+                      Container(
+                        child: Icon(Icons.assessment_outlined),
+                      ),
+                      Padding(
+                        padding: EdgeInsets.fromLTRB(15, 0, 0, 0),
+                        child: Column(
+                          crossAxisAlignment: CrossAxisAlignment.start,
+                          children: [
+                            Text(
+                              "Relatórios",
+                              style: TextStyle(fontSize: 22),
+                            ),
+                          ],
+                        ),
+                      ),
+                    ],
+                  ),
+                ),
+              ),
+            ),
+          ],
+        )),
         floatingActionButton: FloatingActionButton(
           onPressed: () {
             _showSalePage();
